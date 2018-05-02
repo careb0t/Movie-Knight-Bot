@@ -1,0 +1,17 @@
+{
+  "name": "movie-knight",
+  "version": "1.0.0",
+  "description": "Discord bot",
+  "main": "movie-knight.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ufufu",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "discord-paginationembed": "github:gazmull/discord-paginationembed",
+    "discord.js": "^11.3.2",
+    "mongoose": "^5.0.16"
+  }
+}
