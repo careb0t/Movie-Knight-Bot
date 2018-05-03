@@ -6,7 +6,7 @@ exports.run = (bot, message, args) => {
             "fields": [
                 {
                     "name": "__`~setup`__",
-                    "value": "Ex: `~setup`\nLinks to website containing setup information and instructions.)"
+                    "value": "Ex: `~setup`\nDisplays setup instructions. (Only usable by owner of server)"
                 },
                 {
                     "name": "__`~addMovieRole`__",
