@@ -1,12 +1,14 @@
 const Guild = require("../models/Guild.js")
 exports.run = (bot, message, args) => {
     Guild.findOne({guild_id: message.guild.id}, function (err, guild) {
+        console.log("guild.request_list.length=" + guild.request_list.length)
         if (!message.member.roles.has(guild.moderator_role_id)) {
             message.channel.send("Only movie night moderators can create polls!")
             return
         }
         if (guild.request_list.length < 3) {
             message.channel.send("There aren't enough movies on the list. Add some more!")
+            return
         }
         function shuffle(array) {
             var currentIndex = array.length,

@@ -6,7 +6,7 @@ exports.run = (bot, message, args) => {
             "fields": [
                 {
                     "name": "__`~setup`__",
-                    "value": "Ex: `~setup`\nDisplays instructions for server owner to setup Movie Knight. (Setup specific commands are not displayed here and will be shown when ~setup is used.)"
+                    "value": "Ex: `~setup`\nLinks to website containing setup information and instructions.)"
                 },
                 {
                     "name": "__`~addMovieRole`__",
