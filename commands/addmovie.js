@@ -10,7 +10,7 @@ exports.run = (bot, message, args) => {
             return
         }
         if (onCooldown.has(message.author.id) && message.author.id !== message.guild.ownerID) {
-            message.channel.send("Only one request per" + guild.movie_cooldown + "day(s)!")
+            message.channel.send("Only one request per " + guild.movie_cooldown + " day(s)!")
             return
         }
         onCooldown.add(message.author.id);

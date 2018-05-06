@@ -6,15 +6,15 @@ exports.run = (bot, message, args) => {
             "fields": [
                 {
                     "name": "__`~setup`__",
-                    "value": "Ex: `~setup`\nDisplays setup instructions. (Only usable by owner of server)"
+                    "value": "Displays setup instructions. (Only usable by owner of server)"
                 },
                 {
                     "name": "__`~addMovieRole`__",
-                    "value": "Ex: `~addMovieRole`\nAssigns the movie night role to user for notifications when polls or created or movie viewings start."
+                    "value": "Assigns the movie night role to user for notifications when polls or created or movie viewings start."
                 },
                 {
                     "name": "__`~removeMovieRole`__",
-                    "value": "Ex: `~removeMovieRole`\nRemoves the movie night role from user."
+                    "value": "Removes the movie night role from user."
                 },
                 {
                     "name": "__`~addMovie [title] // [year]`__",
@@ -26,7 +26,7 @@ exports.run = (bot, message, args) => {
                 },
                 {
                     "name": "__`~createMoviePoll`__",
-                    "value": "Ex: `~createMoviePoll`\nSelects three random movies from the list and creates a reaction poll for users to vote on."
+                    "value": "Selects three random movies from the list and creates a reaction poll for users to vote on."
                 },
                 {
                     "name": "__`~aboutMovie [title] // [year]`__",
