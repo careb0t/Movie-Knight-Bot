@@ -10,7 +10,9 @@ exports.run = (bot, message, args) => {
             message.channel.send("Only movie night moderators can remove movies!")
             return
         }
-        let movieTitle = args
+        let movieArgs = String(args).replace(",", " ").split("//")
+        let movieTitle = movieArgs[0]
+        let movieYear = movieArgs[1]
         let url = "https://api.themoviedb.org/3/search/movie?include_adult=false&query=" + movieTitle + "&year=" + movieYear + "&api_key=2f9030e4912af0f2b862c44f7a8181e6"
         axios
             .get(url)
