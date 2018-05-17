@@ -2,8 +2,8 @@ const Guild = require("../models/Guild.js")
 exports.run = (bot, message, args) => {
     Guild.findOne({ guild_id: message.guild.id }, function (err, guild) {
         if (message.channel.id != guild.movie_night_channel_id) return
-        if (message.author.id == !guild.moderator_role_id || !guild.owner_id) {
-            message.channel.send("Only moderators can remove movies from the list!")
+        if (!message.member.roles.has(guild.moderator_role_id)) {
+            message.channel.send("Only movie night moderators can clear the list!")
             return
         }
         guild.request_list = []
