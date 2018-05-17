@@ -1,3 +1,4 @@
+var moment = require('moment')
 const Guild = require("../models/Guild.js")
 const onCooldown = require("../sets/oncooldown.js")
 const axios = require("axios")
@@ -9,20 +10,20 @@ exports.run = (bot, message, args) => {
             return
         }
         let movieTitle = args
-        let url = "http://www.omdbapi.com/?t=" + movieTitle + "&y=&type=movie&r=json&plot=full&apikey=553813e7"
+        let url = "https://api.themoviedb.org/3/search/movie?include_adult=false&query=" + movieTitle + "&year=" + movieYear + "&api_key=2f9030e4912af0f2b862c44f7a8181e6"
         axios
             .get(url)
             .then(response => {
-                if (response.data.Response == "False") {
-                    message.channel.send("Bad response from IMDB API. Check your spelling!")
+                if (response.data.total_results == "0") {
+                    message.channel.send("Bad response from TMDB API. Check your spelling!")
                     return
                 }
-                let responseTitle = response.data.Title
-                let responseYear = response.data.Year
-                let responsePlot = response.data.Plot
-                let responseRatings = response.data.Ratings
-                let responsePoster = response.data.Poster
-                let responseLink = response.data.imdbID
+                let responseTitle = response.data.results[0].title
+                let responseYear = response.data.results[0].release_date
+                let responsePlot = response.data.results[0].overview
+                let responseRatings = response.data.results[0].vote_average
+                let responsePoster = "https://image.tmdb.org/t/p/w1280" + response.data.results[0].poster_path
+                let responseLink = "https://www.themoviedb.org/movie/" + response.data.results[0].id
                 let index = guild.request_list.findIndex(e => {
                     return e.title === responseTitle
                 })

@@ -22,15 +22,19 @@ exports.run = (bot, message, args) => {
                 },
                 {
                     "name": "__`~removeMovie [title] // [year]`__",
-                    "value": "Ex: `~addMovie Shrek`\nEx: `~addMovie The Shape of Water // 2017`\nAllows a movie night mod to remove a movie from the list. Command must be typed in movie list channel. (**Note**: Year is optional but will ensure the right movie is removed from the list.)"
+                    "value": "Ex: `~removeMovie Shrek`\nEx: `~removeMovie The Shape of Water // 2017`\nRemove a movie from the list. (**Note**: Year is optional but will ensure the right movie is removed from the list; Only movie mods can use this command!)"
                 },
                 {
                     "name": "__`~createMoviePoll`__",
-                    "value": "Selects three random movies from the list and creates a reaction poll for users to vote on."
+                    "value": "Selects three random movies from the list and creates a reaction poll for users to vote on. (**Note**: Only movie mods can use this command!)"
                 },
                 {
                     "name": "__`~aboutMovie [title] // [year]`__",
                     "value": "Ex: `~aboutMovie Shrek`\nEx: `~aboutMovie The Shape of Water // 2017`\nCreates a preview of selected movie featuring a plot summary, year of release, Rotten Tomatoes score, and a link to the movie's IMDB page. (**Note**: Year is optional but will ensure the right movie is displayed.)"
+                },
+                {
+                    "name": "__`~clearMovieList`__",
+                    "value": "Removes every movie from the list. (**Note**: This command can not be undone. Be careful! Only movie mods can use this command!)"
                 }
             ]
         }

@@ -1,3 +1,4 @@
+var moment = require('moment');
 const Guild = require("../models/Guild.js")
 const onCooldown = require("../sets/oncooldown.js")
 const axios = require("axios")
@@ -21,44 +22,43 @@ exports.run = (bot, message, args) => {
         let movieArgs = String(args).replace(",", " ").split("//")
         let movieTitle = movieArgs[0]
         let movieYear = movieArgs[1]
-        let url = "http://www.omdbapi.com/?t=" + movieTitle + "&y=" + movieYear + "&type=movie&r=json&plot=full&apikey=553813e7"
+        let url = "https://api.themoviedb.org/3/search/movie?include_adult=false&query=" + movieTitle + "&year=" + movieYear + "&api_key=2f9030e4912af0f2b862c44f7a8181e6"
         axios
             .get(url)
             .then(response => {
-                if (response.data.Response == "False") {
+                if (response.data.total_results == "0") {
                     onCooldown.delete(message.author.id)
                     message.channel.send("No results found. Check your spelling, or try another movie!")
                     return
                 }
-                let responseTitle = response.data.Title
-                let responseYear = response.data.Year
-                let responsePlot = response.data.Plot
-                let responseRatings = response.data.Ratings
-                let responsePoster = response.data.Poster
-                let responseLink = response.data.imdbID
+                console.log(response.data.results[0])
+                let responseTitle = response.data.results[0].title
+                let responseYear = response.data.results[0].release_date
+                let responsePlot = response.data.results[0].overview
+                let responseRatings = response.data.results[0].vote_average
+                let responsePoster = "https://image.tmdb.org/t/p/w1280" + response.data.results[0].poster_path
+                let responseLink = "https://www.themoviedb.org/movie/" + response.data.results[0].id
                 let entry = guild.request_list.find(e => {
                         return e.title === responseTitle
                 })
-                console.log(entry)
                 if (entry) {
                      onCooldown.delete(message.author.id)
                     message.channel.send("This movie is already on the list!")
                     return
                 }
+                
                 let movieObj = new Object()
                 movieObj.title = responseTitle
-                movieObj.ratings = responseRatings[1] === undefined ? "N/A" : responseRatings[1].Value
+                movieObj.ratings = responseRatings === undefined ? "N/A" : responseRatings
                 movieObj.year = responseYear === undefined ? "N/A" : responseYear
                 movieObj.plot = responsePlot === undefined ? "N/A" : responsePlot
                 movieObj.poster = responsePoster === undefined ? "N/A" : responsePoster
-                movieObj.link = responseLink === undefined ? "N/A" : response.data.imdbID
-                console.log(movieObj)
+                movieObj.link = responseLink === undefined ? "N/A" : responseLink
                 Guild.findByIdAndUpdate(guildDocID,
                     {$push: {request_list: movieObj}},
                     {safe: true, upsert: true, new: true},
                     function (err, docguild) {
                         if (err) throw err
-                        console.log(guild)
                         message.channel.send(movieObj.title +" added to list.")  
                     }
                 )
@@ -73,17 +73,17 @@ exports.run = (bot, message, args) => {
                         "fields": [
                             {
                                 "name": "Year :calendar:",
-                                "value": responseYear,
+                                "value": moment(responseYear).format("MMMM Do, YYYY"),
                                 "inline": true
                             },
                             {
-                                "name": "Rotten Tomatoes Score :tomato:",
-                                "value": movieObj.ratings,
+                                "name": "Average Rating :trophy:",
+                                "value": (responseRatings*10).toString() + "%",
                                 "inline": true
                             },
                             {
-                                "name": ":mag:",
-                                "value": "[View more information about this movie!](http://www.imdb.com/title/" + responseLink + "/)"
+                                "name": "\u200b",
+                                "value": "[View more information about this movie!]("+ responseLink + ")"
                             }
                         ]
                     }

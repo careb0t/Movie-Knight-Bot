@@ -1,3 +1,4 @@
+var moment = require('moment')
 const Guild = require("../models/Guild.js")
 exports.run = (bot, message, args) => {
     Guild.findOne({guild_id: message.guild.id}, function (err, guild) {
@@ -42,21 +43,21 @@ exports.run = (bot, message, args) => {
                 },
                 "fields": [{
                         "name": "Year :calendar:",
-                        "value": firstMovie.year,
+                        "value": moment(firstMovie.year).format("MMMM Do, YYYY"),
                         "inline": true
                     },
                     {
-                        "name": "Rotten Tomatoes Score :tomato:",
-                        "value": firstMovie.ratings,
+                        "name": "Average Rating :trophy:",
+                        "value": (firstMovie.ratings*10).toString() + "%",
                         "inline": true
                     },
                     {
-                        "name": ":scales:",
+                        "name": "\u200b",
                         "value": "To vote for this movie, click on :smiling_imp: below the poll message."
                     },
                     {
                         "name": "\u200b",
-                        "value": "[View more information about this movie!](http://www.imdb.com/title/" + firstMovie.link + "/)"
+                        "value": "[View more information about this movie!]("+ firstMovie.link + ")"
                     },
                     
                 ]
@@ -72,21 +73,21 @@ exports.run = (bot, message, args) => {
                 },
                 "fields": [{
                         "name": "Year :calendar:",
-                        "value": secondMovie.year,
+                        "value": moment(secondMovie.year).format("MMMM Do, YYYY"),
                         "inline": true
                     },
                     {
-                        "name": "Rotten Tomatoes Score :tomato:",
-                        "value": secondMovie.ratings,
+                        "name": "Average Rating :trophy:",
+                        "value": (secondMovie.ratings*10).toString() + "%",
                         "inline": true
                     },
                     {
-                        "name": ":scales:",
+                        "name": "\u200b",
                         "value": "To vote for this movie, click on :skull: below the poll message."
                     },
                     {
                         "name": "\u200b",
-                        "value": "[View more information about this movie!](http://www.imdb.com/title/" + secondMovie.link + "/)"
+                        "value": "[View more information about this movie!]("+ secondMovie.link + ")"
                     },
                     
                 ]
@@ -102,21 +103,21 @@ exports.run = (bot, message, args) => {
                 },
                 "fields": [{
                         "name": "Year :calendar:",
-                        "value": thirdMovie.year,
+                        "value": moment(thirdMovie.year).format("MMMM Do, YYYY"),
                         "inline": true
                     },
                     {
-                        "name": "Rotten Tomatoes Score :tomato:",
-                        "value": thirdMovie.ratings,
+                        "name": "Average Rating :trophy:",
+                        "value": (thirdMovie.ratings*10).toString() + "%",
                         "inline": true
                     },
                     {
-                        "name": ":scales:",
+                        "name": "\u200b",
                         "value": "To vote for this movie, click on :ghost: below the poll message."
                     },
                     {
                         "name": "\u200b",
-                        "value": "[View more information about this movie!](http://www.imdb.com/title/" + thirdMovie.link + "/)"
+                        "value": "[View more information about this movie!]("+ thirdMovie.link + ")"
                     },
                     
                 ]
