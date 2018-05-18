@@ -1,3 +1,4 @@
+const Guild = require("../models/Guild.js")
 exports.run = (bot, message, args) => {
     Guild.findOne({ guild_id: message.guild.id }, function (err, guild) {
     if (message.channel.id != guild.movie_night_channel_id) return
