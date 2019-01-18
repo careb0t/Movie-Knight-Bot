@@ -21,7 +21,8 @@ bot.on("ready", () => {
             let guildListName = guilds.name
             guildObj= {id: guildListId, name: guildListName}
             return guildObj
-        })
+        });
+        
         for (i = 0; i < guildList.length; i++) {
             var index = -1;
             for (j = 0; j < guild.length; j++) {
@@ -31,6 +32,7 @@ bot.on("ready", () => {
                 const newGuild = new Guild({
                     guild_name: guildList[i].name,
                     guild_id: guildList[i].id,
+                    guild_icon: guildList[i].iconURL,
                     guild_prefix: "~",
                     owner_id: guild.ownerID,
                     moderator_role_id: "",
@@ -38,22 +40,24 @@ bot.on("ready", () => {
                     movie_night_channel_id: "",
                     movie_cooldown: "",
                     request_list: []
-                })
+                });
                 newGuild.save(function (err) {
                     if (err) throw err
-                    console.log("Guild created!")
-                })
+                    console.log("Guild created! ")
+                });
             }
         }
         console.log("Existing guild database check complete!")
-    })
+    });
 });
+bot.on('error', console.error);
 
 //Bot creates database document when joining server and gives setup instructions
 bot.on("guildCreate", guild => {
     const newGuild = new Guild({ 
         guild_name: guild.name,
         guild_id: guild.id,
+        guild_icon: guild.iconURL,
         guild_prefix: "~",
         owner_id: guild.ownerID,
         moderator_role_id: "",
@@ -61,11 +65,11 @@ bot.on("guildCreate", guild => {
         movie_night_channel_id: "",
         movie_cooldown: "",
         request_list: []
-    })
+    });
     newGuild.save(function (err) {
         if (err) throw err
         console.log("Guild created!")
-    })
+    });
     let defaultChannel = "";
     guild.channels.forEach((channel) => {
         if (channel.type == "text" && defaultChannel == "") {
@@ -73,24 +77,32 @@ bot.on("guildCreate", guild => {
                 defaultChannel = channel;
             }
         }
-    })
+    });
     defaultChannel.send({
         "embed": {
             "title": "**Movie Knight is here!**",
             "description": "Movie Knight is a Discord community movie night bot that handles movie night roles, displays information on movies, creates a community movie request list, and creates polls from the community list for users to vote on a movie to be viewed!\n\nTo get set up Movie Knight, type `~setup` (Setup is restricted to owners. An admin or bot testing channel is recommended for the setup process!) \n\n To see a list of commands and examples, type `~help`\n\n For more information, screenshots, and more, visit Movie Knight's [website](https://ufufuru.github.io/)!",
             "color": 10973164
         }
-    })
-})
+    });
+});
 
 //Deletes database document when leaving server
 bot.on("guildDelete", guild => {
     Guild.findOneAndRemove({guild_id: guild.id}, function(err) {
         if (err) throw (err)
         console.log("Guild deleted!")
-    })
-})
+    });
+});
 
+//Updates database document whenever a server updates it's name/picture
+bot.on("guildUpdate", (oldGuild, newGuild) => {
+    Guild.findOneAndUpdate({guild_id: oldGuild.id}, {"$set": {"guild_name": newGuild.name, "guild_icon": newGuild.iconURL}}, function(err) {
+        if (err) throw (err);
+        console.log("Guild updated!");
+    });
+})
+;
 //Command handler
 bot.on("message", message => {
     //Prefix+command structure
@@ -112,7 +124,7 @@ bot.on("message", message => {
         } catch (err) {
             console.error(err);
         }
-    })
-})
+    });
+});
 
 bot.login(botSettings.token)

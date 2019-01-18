@@ -5,6 +5,7 @@ const Schema = mongoose.Schema
 const guildSchema = new Schema({
     guild_name: String,
     guild_id: { type: String, unique: true },
+    guild_icon: String,
     guild_prefix: String,
     owner_id: String,
     moderator_role_id: String,
