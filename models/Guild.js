@@ -13,7 +13,8 @@ const guildSchema = new Schema({
     movie_night_channel_id: String,
     movie_list_channel_id: String,
     movie_cooldown: String,
-    request_list: []
+    request_list: [],
+    user_list: [String]
 })
 
 //Create Mongoose model

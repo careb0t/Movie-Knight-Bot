@@ -19,7 +19,9 @@ bot.on("ready", () => {
         let guildList = bot.guilds.map(guilds => {
             let guildListId = guilds.id
             let guildListName = guilds.name
-            guildObj= {id: guildListId, name: guildListName}
+            let guildListIcon = guilds.iconURL
+            let guildListMembers = guilds.members.keyArray()
+            guildObj= {id: guildListId, name: guildListName, icon: guildListIcon, members: guildListMembers}
             return guildObj
         });
         
@@ -32,18 +34,19 @@ bot.on("ready", () => {
                 const newGuild = new Guild({
                     guild_name: guildList[i].name,
                     guild_id: guildList[i].id,
-                    guild_icon: guildList[i].iconURL,
+                    guild_icon: guildList[i].icon,
                     guild_prefix: "~",
                     owner_id: guild.ownerID,
                     moderator_role_id: "",
                     movie_night_role_id: "",
                     movie_night_channel_id: "",
                     movie_cooldown: "",
-                    request_list: []
+                    request_list: [],
+                    user_list: guildList[i].members
                 });
                 newGuild.save(function (err) {
                     if (err) throw err
-                    console.log("Guild created! ")
+                    console.log("Guild created!")
                 });
             }
         }
@@ -64,7 +67,8 @@ bot.on("guildCreate", guild => {
         movie_night_role_id: "",
         movie_night_channel_id: "",
         movie_cooldown: "",
-        request_list: []
+        request_list: [],
+        user_list: guild.members.keyArray()
     });
     newGuild.save(function (err) {
         if (err) throw err
@@ -95,11 +99,23 @@ bot.on("guildDelete", guild => {
     });
 });
 
-//Updates database document whenever a server updates it's name/picture
+//Updates database document whenever a server updates it's name/picture/members
 bot.on("guildUpdate", (oldGuild, newGuild) => {
     Guild.findOneAndUpdate({guild_id: oldGuild.id}, {"$set": {"guild_name": newGuild.name, "guild_icon": newGuild.iconURL}}, function(err) {
         if (err) throw (err);
-        console.log("Guild updated!");
+    });
+})
+;
+bot.on("guildMemberAdd", (member) => {
+    Guild.findOneAndUpdate({guild_id: member.guild.id}, {"$push": {"user_list": member.id}}, function(err) {
+        if (err) throw (err);
+        console.log("Member added!")
+    });
+})
+bot.on("guildMemberRemove", (member) => {
+    Guild.findOneAndUpdate({guild_id: member.guild.id}, {"$pull": {"user_list": member.id}}, function(err) {
+        if (err) throw (err);
+        console.log("Member deleted!")
     });
 })
 ;
