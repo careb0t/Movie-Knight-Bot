@@ -10,7 +10,6 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.18.0",
-    "discord-paginationembed": "github:gazmull/discord-paginationembed",
     "discord.js": "^11.3.2",
     "moment": "^2.22.1",
     "mongoose": "^5.0.16"

@@ -10,7 +10,7 @@ const Guild = require("./models/Guild.js")
 const bot = new Discord.Client();
 
 //Connect to database
-mongoose.connect("mongodb+srv://" + botSettings.dbUsername + ":" + botSettings.dbPassword + "@movie-knight-vaypj.mongodb.net/movie-knight")
+mongoose.connect("mongodb+srv://" + botSettings.dbUsername + ":" + botSettings.dbPassword + "@movieknight.xebz3fz.mongodb.net/?retryWrites=true&w=majority")
 
 //So we know the bot is working
 bot.on("ready", () => {
